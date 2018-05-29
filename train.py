@@ -40,7 +40,7 @@ data_transform = transforms.Compose([
 dataset = {x: StanfordDogsDataset(mat_file='lists/%s_list' % x,
                                     transform=data_transform)
 			for x in ['train', 'test']}
-dataloader = {x: DataLoader(dataset[x], batch_size=8, shuffle=True, num_workers=8)
+dataloader = {x: DataLoader(dataset[x], batch_size=config.batch_size, shuffle=True, num_workers=config.num_workers)
 				for x in ['train', 'test']}
 
 loss_fn = torch.nn.CrossEntropyLoss()
@@ -71,7 +71,7 @@ for epoch in range(start_epoch, start_epoch + 10):
 		running_loss = 0.0
 		running_corrects = 0
 		for batch in dataloader[phase]:
-			batch_images, batch_labels = batch['image'].type(dtype), batch['label'].type(dtype)
+			batch_images, batch_labels = batch['image'].cuda(), batch['label'].cuda()
 			with torch.set_grad_enabled(phase == 'train'):
 				model.train(phase == 'train')
 				y_pred = model(batch_images)
