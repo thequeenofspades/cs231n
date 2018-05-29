@@ -67,7 +67,7 @@ else:
 	losses = {x: [] for x in ['train', 'test']}
 	accs = {x: [] for x in ['train', 'test']}
 
-for epoch in range(start_epoch, start_epoch + 10):
+for epoch in range(start_epoch, config.num_epochs):
 	for phase in ['train','test']:
 		tic = time.time()
 		running_loss = 0.0
@@ -108,7 +108,7 @@ for epoch in range(start_epoch, start_epoch + 10):
 		'accs': accs
 		}
 	save_checkpoint(state, is_best)
-	if (epoch + 1) % 100 == 0:
+	if (epoch + 1) % config.save_freq == 0:
 		save_checkpoint(state, is_best, chkpoint_dir + '/checkpoint-%d.pth.tar' % (epoch+1))
 
 # train_handle, = plt.plot(range(len(losses['train'])), losses['train'])
