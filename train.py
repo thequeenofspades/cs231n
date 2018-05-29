@@ -22,6 +22,8 @@ chkpoint_file_best = chkpoint_dir + '/model_best.pth.tar'
 
 dtype = config.dtype
 if config.use_GPU:
+	print('Currently using CUDA device {}'.format(torch.cuda.current_device()))
+	torch.cuda.device('cuda')
 	model.cuda()
 
 def save_checkpoint(state, is_best, filename=chkpoint_file):
@@ -71,7 +73,10 @@ for epoch in range(start_epoch, start_epoch + 10):
 		running_loss = 0.0
 		running_corrects = 0
 		for batch in dataloader[phase]:
-			batch_images, batch_labels = batch['image'].cuda(), batch['label'].cuda()
+			batch_images, batch_labels = batch['image'], batch['label']
+			if config.use_GPU:
+				batch_images = batch_images.cuda()
+				batch_labels = batch_labels.cuda()
 			with torch.set_grad_enabled(phase == 'train'):
 				model.train(phase == 'train')
 				y_pred = model(batch_images)
