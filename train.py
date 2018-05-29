@@ -71,7 +71,7 @@ for epoch in range(start_epoch, start_epoch + 10):
 		running_loss = 0.0
 		running_corrects = 0
 		for batch in dataloader[phase]:
-			batch_images, batch_labels = batch['image'], batch['label']
+			batch_images, batch_labels = batch['image'].type(dtype), batch['label'].type(dtype)
 			with torch.set_grad_enabled(phase == 'train'):
 				model.train(phase == 'train')
 				y_pred = model(batch_images)
