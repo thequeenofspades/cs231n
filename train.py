@@ -14,10 +14,15 @@ import time
 import matplotlib.pyplot as plt
 import pickle as pkl
 import shutil, os
+import config
 
 chkpoint_dir = 'results/baseline'
 chkpoint_file = chkpoint_dir + '/checkpoint.pth.tar'
 chkpoint_file_best = chkpoint_dir + '/model_best.pth.tar'
+
+dtype = config.dtype
+if config.use_GPU:
+	model.cuda()
 
 def save_checkpoint(state, is_best, filename=chkpoint_file):
 	torch.save(state, filename)
@@ -101,21 +106,21 @@ for epoch in range(start_epoch, start_epoch + 10):
 	if (epoch + 1) % 100 == 0:
 		save_checkpoint(state, is_best, chkpoint_dir + '/checkpoint-%d.pth.tar' % (epoch+1))
 
-train_handle, = plt.plot(range(len(losses['train'])), losses['train'])
-test_handle, = plt.plot(range(len(losses['test'])), losses['test'])
-plt.title('Loss over %d epochs' % len(losses['train']))
-plt.xlabel('Epoch')
-plt.ylabel('CE loss')
-plt.legend([train_handle, test_handle], ['train', 'test'])
-plt.show()
+# train_handle, = plt.plot(range(len(losses['train'])), losses['train'])
+# test_handle, = plt.plot(range(len(losses['test'])), losses['test'])
+# plt.title('Loss over %d epochs' % len(losses['train']))
+# plt.xlabel('Epoch')
+# plt.ylabel('CE loss')
+# plt.legend([train_handle, test_handle], ['train', 'test'])
+# plt.show()
 
-train_handle, = plt.plot(range(len(accs['train'])), accs['train'])
-test_handle, = plt.plot(range(len(accs['test'])), accs['test'])
-plt.title('Accuracy over %d epochs' % len(accs['train']))
-plt.xlabel('Epoch')
-plt.ylabel('Accuracy (%)')
-plt.legend([train_handle, test_handle], ['train', 'test'])
-plt.show()
+# train_handle, = plt.plot(range(len(accs['train'])), accs['train'])
+# test_handle, = plt.plot(range(len(accs['test'])), accs['test'])
+# plt.title('Accuracy over %d epochs' % len(accs['train']))
+# plt.xlabel('Epoch')
+# plt.ylabel('Accuracy (%)')
+# plt.legend([train_handle, test_handle], ['train', 'test'])
+# plt.show()
 
 # dataset = datasets.ImageFolder(root='Images', transform=data_transform)
 # dataloader = DataLoader(dataset, batch_size=4, shuffle=True, num_workers=4)
