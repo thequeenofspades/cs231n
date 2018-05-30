@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils, datasets
 from data_processing import StanfordDogsDataset, Flatten, mean_and_std
-from baseline_model import model
+from baseline_model import model as baseline_model
+from regularized_model import model as reg_model
 import time
 import matplotlib.pyplot as plt
 import pickle as pkl
@@ -20,6 +21,9 @@ import sys
 chkpoint_dir = sys.argv[1]
 chkpoint_file = chkpoint_dir + '/checkpoint.pth.tar'
 chkpoint_file_best = chkpoint_dir + '/model_best.pth.tar'
+
+models = {'baseline': baseline_model, 'reg': reg_model}
+model = models[config.model]
 
 dtype = config.dtype
 if config.use_GPU:
