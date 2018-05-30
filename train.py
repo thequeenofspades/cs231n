@@ -15,8 +15,9 @@ import matplotlib.pyplot as plt
 import pickle as pkl
 import shutil, os
 import config
+import sys
 
-chkpoint_dir = 'results/baseline'
+chkpoint_dir = sys.argv[1]
 chkpoint_file = chkpoint_dir + '/checkpoint.pth.tar'
 chkpoint_file_best = chkpoint_dir + '/model_best.pth.tar'
 
@@ -47,8 +48,8 @@ dataloader = {x: DataLoader(dataset[x], batch_size=config.batch_size, shuffle=Tr
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-learning_rate = 1e-4
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+learning_rate = config.lr
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=config.weight_decay)
 
 if os.path.isfile(chkpoint_file):
 	print("=> Loading checkpoint '{}'".format(chkpoint_file))

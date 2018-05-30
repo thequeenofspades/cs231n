@@ -10,6 +10,9 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 from xml.etree import cElementTree as ET
 from PIL import Image
+import config
+
+dtype = config.dtype
 
 class StanfordDogsDataset(Dataset):
     """Stanford Dogs dataset."""
