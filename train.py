@@ -11,6 +11,7 @@ from torchvision import transforms, utils, datasets
 from data_processing import StanfordDogsDataset, Flatten, mean_and_std
 from baseline_model import model as baseline_model
 from regularized_model import model as reg_model
+from resnet_model import model as resnet_model
 import time
 import matplotlib.pyplot as plt
 import pickle as pkl
@@ -22,7 +23,7 @@ chkpoint_dir = sys.argv[1]
 chkpoint_file = chkpoint_dir + '/checkpoint.pth.tar'
 chkpoint_file_best = chkpoint_dir + '/model_best.pth.tar'
 
-models = {'baseline': baseline_model, 'reg': reg_model}
+models = {'baseline': baseline_model, 'reg': reg_model, 'resnet': resnet_model}
 model = models[config.model]
 
 dtype = config.dtype
@@ -37,7 +38,7 @@ def save_checkpoint(state, is_best, filename=chkpoint_file):
 		shutil.copyfile(filename, chkpoint_file_best)
 
 data_transform = transforms.Compose([
-        transforms.RandomResizedCrop(32, (0.5, 1.0)),
+        transforms.RandomResizedCrop(config.image_dim, (0.5, 1.0)),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize(mean=[ 0.4742,  0.4323,  0.3795],
