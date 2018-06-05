@@ -4,10 +4,10 @@ from data_processing import Flatten
 import config
 
 flatten_size = (config.image_dim - 5 + 2 * 2) / 1 + 1
-layer_norm_1 = flatten_size
+layer_norm_1 = int(flatten_size)
 flatten_size = (flatten_size - 5 + 2 * 2) / 1 + 1
-flatten_size = flatten_size / 2
-layer_norm_2 = flatten_size
+flatten_size = int(flatten_size / 2)
+layer_norm_2 = int(flatten_size)
 
 layer_norm_size_1 = [16, layer_norm_1, layer_norm_1]
 layer_norm_size_2 = [32, layer_norm_2, layer_norm_2]
